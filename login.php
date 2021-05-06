@@ -27,7 +27,7 @@
         {
             try{
                 // SQL문을 실행하여 데이터를 MySQL 서버의 tmplogin 테이블에 저장합니다. 
-                $stmt = $con->prepare('SELECT * FROM tmplogin WHERE userID = :userID AND userPwd = :userPwd');
+                $stmt = $con->prepare('SELECT * FROM users WHERE userID = :userID AND userPwd = :userPwd');
                 $stmt->bindParam(':userID', $userID);
                 $stmt->bindParam(':userPwd', $userPwd);
 
@@ -38,7 +38,7 @@
 
                 $response = array();
 
-                if($result['userName']){
+                if($result['name']){
                 	$response["success"] = true;
                 	$response["userID"] = $userID;
                 	$response["userPwd"] = $userPwd;
@@ -76,8 +76,6 @@
             <form action="<?php $_PHP_SELF ?>" method="POST">
                 ID: <input type = "text" name = "ID" />
                 PASSWORD: <input type = "text" name = "PASSWORD" />
-                NAME: <input type = "text" name = "NAME" />
-                NICKNAME: <input type = "text" name = "NICKNAME" />
                 <input type = "submit" name = "submit" />
             </form>
        
