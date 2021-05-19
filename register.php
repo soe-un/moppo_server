@@ -35,31 +35,46 @@
 				if($dupresult['name']) {
 					$errMSG = "중복 아이디입니다.";
 				} else {
-                			$stmt = $con->prepare('INSERT INTO users VALUES(NULL, :userID, :userPwd, :name, :nickname, 0, SYSDATE())');
-                			$stmt->bindParam(':userID', $userID);
-                			$stmt->bindParam(':userPwd', $userPwd);
+                	$stmt = $con->prepare('INSERT INTO users VALUES(NULL, :userID, :userPwd, :name, :nickname, 0, SYSDATE())');
+                	$stmt->bindParam(':userID', $userID);
+                	$stmt->bindParam(':userPwd', $userPwd);
 					$stmt->bindParam(':name', $name);
 					$stmt->bindParam(':nickname', $nickname);
 
                 			//query 실행
-                			if($stmt->execute()){
+                	if($stmt->execute()){
 						$successMSG = "success";
 					}else{ $errMSG = "fail"; }
                 			
 				}
+
+				$response = array();
+
+				if(isset($errMSG)) {
+					$response["success"] = false;
+					$response["message"] = $errMSG;
+				}
+				if(isset($successMSG)){
+					$response["success"] = true;
+					$response["message"] = $successMSG;
+				} 
+
+				echo json_encode($response);
+
                 		
-            		} catch(PDOException $e) {
-                		die("Database error: " . $e->getMessage()); 
-            		}
+            } catch(PDOException $e) {
+                die("Database error: " . $e->getMessage()); 
+            }
 		}
 	}
 ?>
 
 
 <?php
+/*
 	if (isset($errMSG)) echo $errMSG;
 	if (isset($successMSG)) echo $successMSG;
-
+*/
 	$android = strpos($_SERVER['HTTP_USER_AGENT'], "Android");
 
 	if( !$android )
