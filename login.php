@@ -41,7 +41,7 @@
                 if($result['name']){
                 	$response["success"] = true;
                 	$response["userID"] = $userID;
-                	$response["userPwd"] = $userPwd;
+                	$response["useridx"] = $result['idx'];
                     
                 }else{
                     $response["success"] = false;
