@@ -23,7 +23,15 @@
 		$data['idx'] = $row['idx'];
 		$data['nickname'] = $row['nickname'];
 		$data['totalMoney'] = $row['totalMoney'];
-		
+		$data['userID'] = $row['userID'];
+		$inmoney = 0;
+		$stmtr = $con->prepare('SELECT * FROM money WHERE (userNo = :idx AND typeFlag = 1) AND (userNo != typeNo)');
+		$stmtr->bindParam(':idx', $row['idx']);
+		$stmtr->execute();
+		while($rowr = $stmtr->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT)){
+			$inmoney += $rowr['typeMoney'];
+		}
+		$data['inmoney'] = $inmoney; 
 		array_push($response, $data);
 	}
 
